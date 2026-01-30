@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion"; // 1. Import Variants
 import { X, User, ChevronRight, LogOut, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
@@ -15,12 +15,13 @@ interface MobileMenuProps {
 export default function MobileMenu({ isOpen, onClose, onLoginClick, isLoggedIn }: MobileMenuProps) {
   const { user, logout } = useAuth();
   
-  const menuVariants = {
+  // 2. Explicitly type this object as 'Variants'
+  const menuVariants: Variants = {
     closed: { x: "100%", transition: { type: "tween", ease: "easeInOut", duration: 0.4 } },
     open: { x: 0, transition: { type: "tween", ease: "easeInOut", duration: 0.4 } },
   };
 
-  const linkVariants = {
+  const linkVariants: Variants = {
     closed: { opacity: 0, x: 20 },
     open: (i: number) => ({ 
         opacity: 1, 
@@ -33,7 +34,7 @@ export default function MobileMenu({ isOpen, onClose, onLoginClick, isLoggedIn }
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop - Darker for focus */}
+          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -42,7 +43,7 @@ export default function MobileMenu({ isOpen, onClose, onLoginClick, isLoggedIn }
             className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[60]"
           />
 
-          {/* Menu Panel - Solid Black, Gold Border Left */}
+          {/* Menu Panel */}
           <motion.div
             initial="closed"
             animate="open"
