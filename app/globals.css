@@ -27,3 +27,10 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #fbbf24; /* Amber-400 on hover */
 }
+
+/* app/globals.css */
+
+/* Hide the floating reCAPTCHA badge */
+.grecaptcha-badge { 
+  visibility: hidden; 
+}
