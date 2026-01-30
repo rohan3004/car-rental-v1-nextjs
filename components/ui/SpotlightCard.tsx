@@ -18,13 +18,15 @@ export default function SpotlightCard({ children, className = "" }: { children: 
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setOpacity(1)}
       onMouseLeave={() => setOpacity(0)}
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-[#0c0c0c] ${className}`}
+      // Changed: Sharper corners, darker bg, muted border
+      className={`relative overflow-hidden bg-[#0a0a0a] border border-white/5 ${className}`}
     >
       <div
-        className="pointer-events-none absolute -inset-px transition duration-300"
+        className="pointer-events-none absolute -inset-px transition duration-500"
         style={{
           opacity,
-          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(255,255,255,0.06), transparent 40%)`,
+          // Changed: Spotlight is now a subtle Amber Gold instead of white
+          background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(251, 191, 36, 0.08), transparent 40%)`,
         }}
       />
       <div className="relative h-full">{children}</div>
