@@ -10,7 +10,7 @@ import FaqSection from "@/components/sections/FaqSection";
 
 export default function Home() {
   return (
-    <main className="min-h-screen selection:bg-lime-400 selection:text-black font-sans bg-[#050505] text-white">
+    <main className="min-h-screen selection:bg-amber-400 selection:text-black bg-[#050505] text-white overflow-x-hidden">
       <Navbar />
       
       {/* Hero + Search Console */}

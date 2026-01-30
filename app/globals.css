@@ -5,26 +5,25 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-[#080808] text-white antialiased;
-    /* A subtle engineering grid background */
-    background-image: 
-      linear-gradient(to right, #202020 1px, transparent 1px),
-      linear-gradient(to bottom, #202020 1px, transparent 1px);
-    background-size: 60px 60px;
+    /* "Obsidian" Background - Solid, Premium, Dark */
+    @apply bg-[#050505] text-zinc-300 antialiased;
   }
+  
+  /* Optional: Add a very subtle noise texture if you want more depth, 
+     otherwise keep it solid for "Flat" look */
 }
 
-/* Custom scrollbar for Chrome/Safari/Edge */
+/* Luxury Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #080808; 
+  background: #050505; 
 }
 ::-webkit-scrollbar-thumb {
-  background: #333; 
-  border-radius: 4px;
+  background: #27272a; /* Zinc-800 */
+  border-radius: 0px;   /* Sharp corners for "Royal" feel */
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #fbbf24; /* Amber-400 on hover */
 }

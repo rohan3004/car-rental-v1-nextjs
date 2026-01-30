@@ -1,17 +1,23 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google"; // Import Playfair
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext"; // <--- IMPORT THIS
+import { AuthProvider } from "@/context/AuthContext";
 
-const spaceGrotesk = Space_Grotesk({ 
+// Royal/Premium Font
+const playfair = Playfair_Display({ 
   subsets: ["latin"], 
-  variable: "--font-space" 
+  variable: "--font-serif" 
 });
-const inter = Inter({ subsets: ["latin"] });
+
+// Clean/Minimal Font
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-sans" 
+});
 
 export const metadata: Metadata = {
-  title: "GoCar Rentals | Chauffeur Driven Service",
-  description: "Premium car rentals with professional drivers in West Bengal.",
+  title: "GoCar Rentals | Premium Chauffeur Service",
+  description: "Experience luxury travel in West Bengal.",
 };
 
 export default function RootLayout({
@@ -21,8 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} ${spaceGrotesk.variable} bg-[#050505] text-white antialiased`}>
-        {/* WRAP CHILDREN WITH AUTH PROVIDER */}
+      <body className={`${inter.variable} ${playfair.variable} bg-[#050505] text-white antialiased`}>
         <AuthProvider>
           {children}
         </AuthProvider>

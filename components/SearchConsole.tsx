@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { MapPin, ArrowRight, ChevronDown, Calendar, UserCheck } from "lucide-react";
+import { MapPin, ArrowRight, ChevronDown, CalendarDays, Clock, AlertCircle } from "lucide-react";
 import { useFleetConfig } from "@/lib/useFleetConfig";
 
 export default function SearchConsole() {
@@ -13,106 +13,152 @@ export default function SearchConsole() {
   const [selectedCity, setSelectedCity] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  
+  // Custom Error State (No Browser Alerts)
+  const [error, setError] = useState("");
 
-  // Logic to get cities based on selected District
   const availableCities = useMemo(() => {
     const district = districts.find(d => d.name === selectedDistrict);
     if (!district) return [];
     
-    // Merge all urban unit types into one list
-    const allUnits = [
+    return [
       ...district.municipal_corporations,
       ...district.municipalities,
       ...district.census_towns,
       ...(district.other_urban_units || [])
-    ];
-    
-    // Sort alphabetically
-    return allUnits.sort();
+    ].sort();
   }, [selectedDistrict, districts]);
 
   const handleSearch = () => {
-    if (!startDate || !endDate) return alert("Please select dates");
-    if (!selectedCity) return alert("Please select a city");
+    setError(""); // Clear previous errors
+
+    if (!selectedDistrict) return setError("Please select a region.");
+    if (!selectedCity) return setError("Please select a pick-up city.");
+    if (!startDate || !endDate) return setError("Please select travel dates.");
     
+    // Basic date validation
+    if (new Date(startDate) >= new Date(endDate)) {
+        return setError("End date must be after start date.");
+    }
+
     router.push(`/search?start=${startDate}&end=${endDate}&city=${selectedCity}&district=${selectedDistrict}`);
   };
 
   return (
-    <div className="w-full max-w-md bg-[#111] border border-white/20 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
-      
-      {/* Badge */}
-      <div className="absolute top-4 right-4 bg-lime-400 text-black text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider flex items-center gap-1">
-        <UserCheck size={12} /> Chauffeur Driven
-      </div>
-
-      <div className="space-y-4 mt-2">
+    <div className="w-full relative z-30">
+      {/* Royal Card: Solid White, Amber Accent, Sharp Corners */}
+      <div className="bg-white text-black shadow-2xl p-8 w-full max-w-xl mx-auto lg:ml-auto lg:mr-0 border-t-4 border-amber-500 relative">
         
-        {/* DISTRICT SELECTOR */}
-        <div className="relative">
-          <label className="text-xs text-gray-400 font-bold uppercase tracking-widest ml-1 mb-1 block">Select District</label>
-          <div className="relative bg-black border border-white/20 rounded-xl p-3 flex items-center gap-3 hover:border-lime-400 transition-colors cursor-pointer">
-            <div className="w-8 h-8 rounded-full bg-lime-400/10 flex items-center justify-center text-lime-400">
-              <MapPin size={16} />
-            </div>
-            <div className="flex-1">
-               <select 
-                  value={selectedDistrict}
-                  onChange={(e) => {
-                    setSelectedDistrict(e.target.value);
-                    setSelectedCity(""); // Reset city when district changes
-                  }}
-                  className="w-full bg-transparent text-white font-bold text-sm outline-none appearance-none cursor-pointer"
-                >
-                  <option value="" className="bg-black text-gray-500">Select District</option>
-                  {districts.map((d) => (
-                    <option key={d.name} value={d.name} className="bg-black text-white">{d.name}</option>
-                  ))}
-                </select>
-            </div>
-            <ChevronDown size={16} className="text-gray-500 pointer-events-none" />
-          </div>
+        <div className="mb-8">
+           <h3 className="font-serif text-4xl text-gray-900 tracking-tight mb-2">Book Your Journey</h3>
+           <p className="text-gray-500 text-xs font-bold uppercase tracking-widest">Premium Chauffeur Service</p>
         </div>
 
-        {/* CITY SELECTOR (Disabled until District selected) */}
-        <div className={`relative ${!selectedDistrict ? 'opacity-50 pointer-events-none' : ''}`}>
-          <label className="text-xs text-gray-400 font-bold uppercase tracking-widest ml-1 mb-1 block">Pick Up Point</label>
-          <div className="relative bg-black border border-white/20 rounded-xl p-3 flex items-center gap-3 hover:border-lime-400 transition-colors cursor-pointer">
-            <div className="w-8 h-8 rounded-full bg-lime-400/10 flex items-center justify-center text-lime-400">
-              <MapPin size={16} />
+        <div className="space-y-6">
+          
+          {/* LOCATION GRID */}
+          <div className="grid grid-cols-2 gap-6">
+            <div className="group relative">
+               <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-focus-within:text-amber-600 transition-colors">Region</label>
+               <div className="relative border-b border-gray-200 group-focus-within:border-amber-500 transition-colors pb-1">
+                 <select 
+                    value={selectedDistrict}
+                    onChange={(e) => {
+                      setSelectedDistrict(e.target.value);
+                      setSelectedCity("");
+                      setError("");
+                    }}
+                    className="w-full bg-transparent text-lg font-serif font-medium appearance-none outline-none cursor-pointer pr-4 py-1"
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((d) => (
+                      <option key={d.name} value={d.name}>{d.name}</option>
+                    ))}
+                  </select>
+                  <ChevronDown className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+               </div>
             </div>
-            <div className="flex-1">
-               <select 
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                  disabled={!selectedDistrict}
-                  className="w-full bg-transparent text-white font-bold text-lg outline-none appearance-none cursor-pointer"
-                >
-                  <option value="" className="bg-black text-gray-500">Select City / Area</option>
-                  {availableCities.map((c) => (
-                    <option key={c} value={c} className="bg-black text-white">{c}</option>
-                  ))}
-                </select>
+
+            <div className="group relative">
+               <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-focus-within:text-amber-600 transition-colors">Pick-up City</label>
+               <div className="relative border-b border-gray-200 group-focus-within:border-amber-500 transition-colors pb-1">
+                 <select 
+                    value={selectedCity}
+                    onChange={(e) => {
+                        setSelectedCity(e.target.value);
+                        setError("");
+                    }}
+                    disabled={!selectedDistrict}
+                    className="w-full bg-transparent text-lg font-serif font-medium appearance-none outline-none cursor-pointer pr-4 py-1 disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    <option value="">Select City</option>
+                    {availableCities.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                  <MapPin className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+               </div>
             </div>
-            <ChevronDown size={16} className="text-gray-500 pointer-events-none" />
           </div>
-        </div>
 
-        {/* DATES */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-black border border-white/20 rounded-xl p-3">
-             <div className="flex items-center gap-2 mb-1"><Calendar size={12} className="text-lime-400" /><span className="text-[10px] text-gray-400 font-bold uppercase">Start Date</span></div>
-             <input type="datetime-local" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full bg-transparent text-white font-bold text-xs outline-none" style={{ colorScheme: 'dark' }} />
-          </div>
-          <div className="bg-black border border-white/20 rounded-xl p-3">
-             <div className="flex items-center gap-2 mb-1"><Calendar size={12} className="text-lime-400" /><span className="text-[10px] text-gray-400 font-bold uppercase">End Date</span></div>
-             <input type="datetime-local" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="w-full bg-transparent text-white font-bold text-xs outline-none" style={{ colorScheme: 'dark' }} />
-          </div>
-        </div>
+          {/* DATE PICKER GRID */}
+          <div className="grid grid-cols-2 gap-6">
+             <div className="group relative">
+                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-focus-within:text-amber-600 transition-colors">Start Date</label>
+                <div className="relative border-b border-gray-200 group-focus-within:border-amber-500 transition-colors pb-1 flex items-center">
+                   <input 
+                     type="datetime-local" 
+                     value={startDate}
+                     onChange={(e) => {
+                         setStartDate(e.target.value);
+                         setError("");
+                     }}
+                     className="w-full bg-transparent text-sm font-sans font-semibold appearance-none outline-none uppercase text-gray-900 placeholder-transparent py-2"
+                     style={{ colorScheme: 'light' }}
+                   />
+                   {!startDate && <span className="absolute left-0 text-gray-300 text-lg font-serif pointer-events-none italic">Select Date</span>}
+                </div>
+             </div>
 
-        <button onClick={handleSearch} className="w-full mt-2 bg-lime-400 hover:bg-lime-500 text-black h-14 rounded-xl font-bold text-lg uppercase tracking-wide flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(163,230,53,0.3)]">
-          Search Fleet <ArrowRight size={20} />
-        </button>
+             <div className="group relative">
+                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 group-focus-within:text-amber-600 transition-colors">End Date</label>
+                <div className="relative border-b border-gray-200 group-focus-within:border-amber-500 transition-colors pb-1 flex items-center">
+                   <input 
+                     type="datetime-local" 
+                     value={endDate}
+                     onChange={(e) => {
+                         setEndDate(e.target.value);
+                         setError("");
+                     }}
+                     className="w-full bg-transparent text-sm font-sans font-semibold appearance-none outline-none uppercase text-gray-900 py-2"
+                     style={{ colorScheme: 'light' }}
+                   />
+                   {!endDate && <span className="absolute left-0 text-gray-300 text-lg font-serif pointer-events-none italic">Select Date</span>}
+                </div>
+             </div>
+          </div>
+
+          {/* Error Message (Replaces Alert) */}
+          <div className={`transition-all duration-300 overflow-hidden ${error ? "max-h-12 opacity-100" : "max-h-0 opacity-0"}`}>
+             <div className="flex items-center gap-2 text-red-600 text-xs font-bold uppercase tracking-wide bg-red-50 p-3 rounded-lg">
+                <AlertCircle size={16} /> {error}
+             </div>
+          </div>
+
+          {/* Action Button */}
+          <button 
+            onClick={handleSearch} 
+            className="w-full mt-2 bg-gray-900 text-white h-16 hover:bg-black transition-all duration-300 flex items-center justify-between px-8 group shadow-lg hover:shadow-xl hover:-translate-y-1"
+          >
+            <span className="font-sans text-xs font-bold tracking-[0.25em] uppercase text-amber-50 group-hover:text-white transition-colors">
+              Find Your Fleet
+            </span>
+            <span className="w-10 h-10 flex items-center justify-center rounded-full bg-white/10 group-hover:bg-amber-500 group-hover:text-black transition-all">
+                <ArrowRight className="w-5 h-5" />
+            </span>
+          </button>
+
+        </div>
       </div>
     </div>
   );

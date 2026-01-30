@@ -6,66 +6,67 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import AuthModal from "@/components/auth/AuthModal";
 import { useFleetConfig } from "@/lib/useFleetConfig";
-import { useAuth } from "@/context/AuthContext"; // <--- INTEGRATED AUTH CONTEXT
+import { useAuth } from "@/context/AuthContext"; 
 import { 
   Info, MapPin, CheckCircle2, ArrowRight, Loader2, 
-  UserCheck, ShieldCheck, Fuel, AlertCircle 
+  UserCheck, ShieldCheck, Fuel, AlertCircle, CalendarClock, Lock 
 } from "lucide-react";
 
 export default function BookingPage({ params }: { params: Promise<{ carId: string }> }) {
-  // 1. Unwrap Params
   const { carId } = use(params);
-
-  // 2. Global State & Config
   const { allCars, config, loading } = useFleetConfig();
-  const { user } = useAuth(); // <--- Check Global Login State
+  const { user } = useAuth();
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // 3. Local State
-  const [start, setStart] = useState(searchParams.get("start") || "");
-  const [end, setEnd] = useState(searchParams.get("end") || "");
+  // 1. Get Details from URL (Read Only)
+  const city = searchParams.get("city");
+  const district = searchParams.get("district");
+  const urlStart = searchParams.get("start") || "";
+  const urlEnd = searchParams.get("end") || "";
+
+  // 2. State
+  const [start, setStart] = useState(urlStart);
+  const [end, setEnd] = useState(urlEnd);
   const [isAuthOpen, setAuthOpen] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Parse Location
-  const city = searchParams.get("city") || "";
-  const district = searchParams.get("district") || "";
-  const initialLocation = city && district ? `${city}, ${district}` : (city || "West Bengal");
-  const [location] = useState(initialLocation);
+  // Construct Display Location
+  const location = city && district ? `${city}, ${district}` : (city || district || "");
 
-  // 4. Find Car
   const car = allCars.find((c) => c.id === carId);
 
-  // 5. Loading / Error UI
+  // --- LOADING STATE ---
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center">
-        <Loader2 className="animate-spin text-lime-400 mb-4" size={40} />
-        <p className="text-gray-400 font-medium">Loading Booking Details...</p>
+      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center gap-4">
+        <Loader2 className="animate-spin text-amber-400" size={32} />
+        <p className="text-zinc-500 font-serif tracking-widest uppercase text-xs">Retrieving Reservation...</p>
       </div>
     );
   }
 
-  if (!config || !car) {
+  // --- ERROR: MISSING CAR OR LOCATION ---
+  if (!config || !car || !location) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center">
-        <AlertCircle size={48} className="text-red-500 mb-4" />
-        <h1 className="text-2xl font-bold mb-2 font-space">Car Not Found</h1>
-        <p className="text-gray-400 mb-6">We couldn't find a car with ID: <span className="text-white font-mono">{carId}</span></p>
-        <button onClick={() => router.push('/')} className="px-6 py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-200 transition-colors">
-          Return to Fleet
+      <div className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 text-center">
+        <AlertCircle size={48} className="text-red-900 mb-6 opacity-80" />
+        <h1 className="text-3xl font-serif mb-2 text-white">Incomplete Itinerary</h1>
+        <p className="text-zinc-500 mb-8 font-sans max-w-md">
+          {(!car) ? "The vehicle ID is invalid." : "Please select a Pick-up Region and City before booking."}
+        </p>
+        <button onClick={() => router.push('/')} className="px-8 py-3 bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-amber-400 transition-colors">
+          Return to Collection
         </button>
       </div>
     );
   }
 
-  // 6. Pricing Logic
+  // 3. Pricing Logic
   const calculateTotal = () => {
     if (!start || !end) return 0;
     const s = new Date(start).getTime();
     const e = new Date(end).getTime();
-    
     if (isNaN(s) || isNaN(e) || e <= s) return 0; 
     
     const diffHours = (e - s) / (1000 * 60 * 60);
@@ -79,191 +80,196 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
   const duration = start && end ? ((new Date(end).getTime() - new Date(start).getTime()) / 36e5).toFixed(1) : 0;
   const isMinApplied = Number(duration) < (config?.pricing_rules?.min_hours || 10);
 
-  // 7. Booking Handlers
+  // 4. Submission
   const handleBookingRequest = async () => {
     if (user) {
-        // User is ALREADY logged in globally -> Direct Success
         const token = await user.getIdToken();
         submitLead(token);
     } else {
-        // User NOT logged in -> Open Modal
         setAuthOpen(true);
     }
   };
 
   const submitLead = (token: string) => {
-    // In a real app, send this to your backend
-    console.log("Booking Confirmed!", {
-        car: car.name,
-        userToken: token,
-        location,
-        total
-    });
+    console.log("Booking Confirmed!", { car: car.name, userToken: token, location, total });
     setSuccess(true);
   };
 
-  // 8. Success Screen
+  // 5. Success Screen
   if (success) {
     return (
       <main className="min-h-screen bg-[#050505] text-white flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-24 h-24 bg-lime-400 rounded-full flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(163,230,53,0.3)]">
-           <CheckCircle2 size={48} className="text-black" />
+        <div className="w-20 h-20 border border-amber-400/50 rounded-full flex items-center justify-center mb-8 bg-amber-400/10">
+           <CheckCircle2 size={40} className="text-amber-400" />
         </div>
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 font-space">Request Sent!</h1>
-        <p className="text-gray-400 max-w-lg text-lg leading-relaxed">
-           Thank you for choosing <strong>GoCar Rentals</strong>.<br/>
-           Our team has received your request for the <span className="text-lime-400">{car.name}</span> in <strong>{location}</strong>.
-           <br/><br/>
-           We will call your verified number <span className="text-white font-bold">{user?.phoneNumber}</span> shortly.
+        <span className="text-amber-500 text-xs font-bold uppercase tracking-[0.25em] mb-4 block">Request Received</span>
+        <h1 className="text-4xl md:text-6xl font-serif mb-6 text-white">Journey Initiated.</h1>
+        <p className="text-zinc-400 max-w-lg text-lg leading-relaxed font-light mb-10">
+           We have received your request for the <span className="text-white font-medium">{car.name}</span>. 
+           Our concierge will contact <span className="text-white font-medium">{user?.phoneNumber}</span> shortly to finalize your chauffeur.
         </p>
-        <button onClick={() => router.push('/')} className="mt-10 px-8 py-4 bg-[#111] border border-white/20 rounded-xl hover:bg-white/10 transition-colors font-bold uppercase tracking-wider">
-           Back to Home
+        <button onClick={() => router.push('/')} className="px-10 py-4 bg-white text-black hover:bg-amber-400 transition-colors font-bold uppercase tracking-widest text-xs">
+           Return Home
         </button>
       </main>
     );
   }
 
-  // 9. Main UI
   return (
-    <main className="min-h-screen bg-[#050505] text-white selection:bg-lime-400 selection:text-black">
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-amber-400 selection:text-black">
       <Navbar />
       
-      <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
         
-        {/* --- LEFT: Car Info --- */}
-        <div className="lg:col-span-7 space-y-8">
-           <div className="relative h-64 md:h-96 w-full rounded-3xl overflow-hidden border border-white/10 bg-[#111] shadow-2xl">
-              <Image src={car.image} alt={car.name} fill className="object-cover" />
-              <div className="absolute top-4 left-4 flex gap-2">
-                 <span className="bg-black/60 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold border border-white/10 text-white flex items-center gap-1">
-                    <UserCheck size={14} className="text-lime-400" /> Driver Included
-                 </span>
-                 <span className="bg-black/60 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold border border-white/10 text-white flex items-center gap-1">
-                    <ShieldCheck size={14} className="text-lime-400" /> Commercial Permit
+        {/* --- LEFT: Car Visuals & Policies --- */}
+        <div className="lg:col-span-7 space-y-12">
+           
+           {/* Image */}
+           <div className="relative w-full aspect-[16/9] bg-[#0a0a0a] border border-white/5 group">
+              <Image src={car.image} alt={car.name} fill className="object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-700" />
+              
+              <div className="absolute top-6 left-6 flex flex-col gap-2">
+                 <span className="bg-black/80 backdrop-blur-md px-4 py-2 text-[10px] uppercase tracking-widest border border-white/10 text-white flex items-center gap-2 w-fit">
+                    <UserCheck size={12} className="text-amber-400" /> Chauffeur Driven
                  </span>
               </div>
-              <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 to-transparent p-6 pt-20">
-                 <h1 className="text-4xl font-bold font-space text-white">{car.name}</h1>
-                 <p className="text-gray-300 font-medium text-lg mt-1">{car.brand} • {car.category_id?.toUpperCase()}</p>
+              
+              <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/60 to-transparent p-8 pt-24">
+                 <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{car.brand}</p>
+                 <h1 className="text-5xl font-serif text-white">{car.name}</h1>
               </div>
            </div>
 
-           <div className="bg-[#0F0F11] border border-white/10 rounded-2xl p-6 md:p-8">
-              <h3 className="font-bold text-xl mb-6 flex items-center gap-2 font-space">
-                 <Info size={20} className="text-lime-400"/> Tariff & Policies
-              </h3>
-              
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                 <div className="bg-[#1A1A1C] p-4 rounded-xl border border-white/5 text-center">
-                    <div className="text-xs uppercase text-gray-500 font-bold mb-2 tracking-wider">Hourly Rental</div>
-                    <div className="text-3xl font-bold text-lime-400 font-space">₹{car.price_per_hr}</div>
-                    <div className="text-[10px] text-gray-500 mt-1">Base Fare</div>
-                 </div>
-                 <div className="bg-[#1A1A1C] p-4 rounded-xl border border-white/5 text-center">
-                    <div className="text-xs uppercase text-gray-500 font-bold mb-2 tracking-wider">Extra Distance</div>
-                    <div className="text-3xl font-bold text-white font-space">₹{car.price_per_km}</div>
-                    <div className="text-[10px] text-gray-500 mt-1">Per Kilometer</div>
-                 </div>
+           {/* Tariff Grid */}
+           <div className="grid grid-cols-2 gap-8 border-t border-b border-white/5 py-8">
+              <div>
+                 <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">Hourly Rate</p>
+                 <div className="text-3xl font-serif text-white">₹{car.price_per_hr}</div>
+                 <p className="text-xs text-zinc-600 mt-1">Base Rental Cost</p>
               </div>
+              <div>
+                 <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">Distance Rate</p>
+                 <div className="text-3xl font-serif text-zinc-400">₹{car.price_per_km}</div>
+                 <p className="text-xs text-zinc-600 mt-1">Per Kilometer</p>
+              </div>
+           </div>
 
-              <div className="space-y-4">
-                 <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest border-b border-white/10 pb-2 mb-4">Important Notes</h4>
-                 <ul className="space-y-3">
-                    {config?.pricing_rules?.policies?.map((policy: string, i: number) => (
-                       <li key={i} className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
-                          <div className="w-1.5 h-1.5 rounded-full bg-lime-400 mt-1.5 shrink-0"></div>
-                          {policy}
-                       </li>
-                    ))}
-                    <li className="flex items-start gap-3 text-sm text-gray-300 leading-relaxed">
-                       <div className="w-1.5 h-1.5 rounded-full bg-lime-400 mt-1.5 shrink-0"></div>
-                       <span className="flex items-center gap-1 text-orange-400 font-bold"><Fuel size={14}/> Fuel is not included (User pays for fuel).</span>
+           {/* Policies */}
+           <div>
+              <h3 className="font-serif text-2xl text-white mb-6 flex items-center gap-3">
+                 <Info size={18} className="text-amber-400"/> Tariff Inclusions
+              </h3>
+              <ul className="grid grid-cols-1 gap-4">
+                 {config?.pricing_rules?.policies?.map((policy: string, i: number) => (
+                    <li key={i} className="flex items-start gap-4 text-sm text-zinc-400 leading-relaxed font-light">
+                       <div className="w-1 h-1 rounded-full bg-amber-400 mt-2 shrink-0"></div>
+                       {policy}
                     </li>
-                 </ul>
-              </div>
+                 ))}
+                 <li className="flex items-start gap-4 text-sm text-zinc-300 leading-relaxed bg-amber-900/10 p-4 border-l-2 border-amber-500">
+                    <Fuel size={16} className="text-amber-500 mt-0.5 shrink-0"/> 
+                    <span>Fuel is not included. <span className="text-amber-500 opacity-80">Guest pays as per usage (Level-to-Level).</span></span>
+                 </li>
+              </ul>
            </div>
         </div>
 
-        {/* --- RIGHT: Form --- */}
+        {/* --- RIGHT: Booking Console --- */}
         <div className="lg:col-span-5">
-           <div className="bg-[#0F0F11] border border-white/10 p-6 md:p-8 rounded-3xl sticky top-28 shadow-2xl ring-1 ring-white/5">
-              <h2 className="text-2xl font-bold mb-8 font-space">Booking Details</h2>
+           <div className="bg-[#0a0a0a] border border-white/5 p-8 md:p-10 sticky top-28 shadow-2xl">
               
-              <div className="space-y-6 mb-8">
-                 <div>
-                    <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Pickup Location</label>
-                    <div className="flex items-center gap-3 bg-[#1A1A1C] border border-white/10 p-4 rounded-xl text-white">
-                       <MapPin className="text-lime-400 shrink-0" size={20} />
-                       <span className="font-bold text-lg truncate">{location}</span>
+              <div className="mb-8 pb-8 border-b border-white/5">
+                 <span className="text-amber-500 text-[10px] font-bold uppercase tracking-widest mb-2 block">Reservation</span>
+                 <h2 className="text-3xl font-serif text-white">Secure Your Ride</h2>
+              </div>
+              
+              <div className="space-y-8 mb-10">
+                 
+                 {/* LOCATION (READ ONLY) */}
+                 <div className="group opacity-80">
+                    <div className="flex justify-between items-center mb-2">
+                        <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Pick-up Location</label>
+                        <Lock size={12} className="text-zinc-600" />
+                    </div>
+                    <div className="flex items-center gap-4 text-zinc-300 border-b border-white/10 pb-3">
+                       <MapPin className="text-amber-400 shrink-0" size={18} />
+                       <span className="font-serif text-lg truncate select-none">{location}</span>
                     </div>
                  </div>
 
-                 <div className="grid grid-cols-2 gap-4">
-                    <div>
-                       <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">Start Time</label>
-                       <input 
-                         type="datetime-local" 
-                         value={start} 
-                         onChange={e => setStart(e.target.value)} 
-                         className="w-full bg-[#1A1A1C] border border-white/10 p-3 rounded-xl text-sm font-bold outline-none focus:border-lime-400 transition-colors" 
-                         style={{colorScheme: "dark"}} 
-                       />
+                 {/* Date Inputs (Editable) */}
+                 <div className="space-y-6">
+                    <div className="group relative">
+                       <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 block">Start Date</label>
+                       <div className="flex items-center border-b border-white/10 group-focus-within:border-amber-400/50 transition-colors pb-1">
+                          <input 
+                            type="datetime-local" 
+                            value={start} 
+                            onChange={e => setStart(e.target.value)} 
+                            className="w-full bg-transparent text-white font-sans text-sm py-2 outline-none uppercase placeholder-zinc-700" 
+                            style={{colorScheme: "dark"}} 
+                          />
+                          {!start && <CalendarClock className="absolute right-0 text-zinc-600 pointer-events-none" size={16}/>}
+                       </div>
                     </div>
-                    <div>
-                       <label className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 block">End Time</label>
-                       <input 
-                         type="datetime-local" 
-                         value={end} 
-                         onChange={e => setEnd(e.target.value)} 
-                         className="w-full bg-[#1A1A1C] border border-white/10 p-3 rounded-xl text-sm font-bold outline-none focus:border-lime-400 transition-colors" 
-                         style={{colorScheme: "dark"}} 
-                       />
+
+                    <div className="group relative">
+                       <label className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 block">End Date</label>
+                       <div className="flex items-center border-b border-white/10 group-focus-within:border-amber-400/50 transition-colors pb-1">
+                          <input 
+                            type="datetime-local" 
+                            value={end} 
+                            onChange={e => setEnd(e.target.value)} 
+                            className="w-full bg-transparent text-white font-sans text-sm py-2 outline-none uppercase" 
+                            style={{colorScheme: "dark"}} 
+                          />
+                          {!end && <CalendarClock className="absolute right-0 text-zinc-600 pointer-events-none" size={16}/>}
+                       </div>
                     </div>
                  </div>
               </div>
 
-              {total > 0 ? (
-                 <div className="bg-white/5 p-5 rounded-2xl mb-8 border border-white/5">
-                    <div className="flex justify-between mb-3 text-sm">
-                       <span className="text-gray-400">Duration</span>
-                       <span className="font-bold text-white">{duration} Hours</span>
-                    </div>
-                    {isMinApplied && (
-                       <div className="flex justify-between mb-3 text-xs bg-orange-500/10 p-2 rounded text-orange-400 border border-orange-500/20">
-                          <span>Minimum Billing Applied</span>
-                          <span className="font-bold">{config.pricing_rules.min_hours} Hrs</span>
+              {/* Estimate Block */}
+              <div className="bg-[#050505] p-6 border border-white/5 mb-8">
+                 {total > 0 ? (
+                    <>
+                       <div className="flex justify-between items-center mb-4">
+                          <span className="text-zinc-500 text-xs uppercase tracking-wider">Duration</span>
+                          <span className="text-white font-bold">{duration} Hours</span>
                        </div>
-                    )}
-                    <div className="flex justify-between border-t border-white/10 pt-4 mt-2">
-                       <div>
-                          <span className="text-white font-bold block text-lg">Estimated Total</span>
-                          <span className="text-[10px] text-gray-500 uppercase block mt-1">*Excludes Fuel & Driver Batta</span>
+                       
+                       <div className="flex justify-between items-end border-t border-white/5 pt-4">
+                          <div>
+                             <span className="text-zinc-400 text-sm font-serif italic block mb-1">Estimated Total</span>
+                             {isMinApplied && <span className="text-[10px] text-amber-500 uppercase tracking-wider">Min. Booking Applied</span>}
+                          </div>
+                          <span className="text-3xl font-serif text-white">₹{total.toLocaleString()}</span>
                        </div>
-                       <span className="text-3xl font-bold text-lime-400 font-space">₹{total.toLocaleString()}</span>
+                    </>
+                 ) : (
+                    <div className="text-center py-4">
+                       <span className="text-zinc-600 text-xs uppercase tracking-widest">Select dates to view estimate</span>
                     </div>
-                 </div>
-              ) : (
-                 <div className="text-center text-sm text-gray-500 mb-8 py-8 bg-white/5 rounded-2xl border border-dashed border-white/10">
-                    Select Start & End dates to view price estimate
-                 </div>
-              )}
+                 )}
+              </div>
 
+              {/* Action Button */}
               <button 
                 disabled={!start || !end || total <= 0}
                 onClick={handleBookingRequest}
-                className="w-full bg-lime-400 text-black font-bold py-5 rounded-xl hover:bg-lime-500 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed text-lg uppercase tracking-wide shadow-[0_0_20px_rgba(163,230,53,0.2)] hover:shadow-[0_0_30px_rgba(163,230,53,0.4)]"
+                className="w-full bg-white text-black h-14 hover:bg-amber-400 transition-all duration-300 flex items-center justify-between px-6 group disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                 Request Booking <ArrowRight size={24} strokeWidth={2.5} />
+                 <span className="text-xs font-bold uppercase tracking-[0.25em]">Confirm Request</span>
+                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
               
-              <p className="text-center text-xs text-gray-500 mt-4">
-                 No payment required now. Pay after trip completion.
+              <p className="text-center text-[10px] text-zinc-600 mt-6 uppercase tracking-widest">
+                 Pay after service completion
               </p>
            </div>
         </div>
       </div>
       
-      {/* Auth Modal Triggered if user is NOT logged in */}
       <AuthModal 
         isOpen={isAuthOpen} 
         onClose={() => setAuthOpen(false)} 

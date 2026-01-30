@@ -1,4 +1,3 @@
-// tailwind.config.ts
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -9,27 +8,37 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['var(--font-sans)', 'sans-serif'],
+        serif: ['var(--font-serif)', 'serif'],
+        space: ['var(--font-space)', 'sans-serif'], // Keep existing if used
+      },
       colors: {
         brand: {
-          black: "#0F0F11", // Soft black, easier on eyes than #000
-          white: "#F4F4F5", // Off-white
-          primary: "#EDF2F7", // Muted interactive background
-          accent: "#2563EB", // Vibrant Blue (Trust + Tech)
-          accentHover: "#1D4ED8",
-          surface: "rgba(255, 255, 255, 0.05)", // Glass effect
+          obsidian: "#050505", // Deepest black
+          charcoal: "#0a0a0a", // Card background
+          surface:  "#121212", // Secondary surface
+          gold:     "#fbbf24", // Amber-400 (Primary Accent)
+          goldDim:  "#d97706", // Amber-600
+          silver:   "#d4d4d8", // Zinc-300 (Text)
+          muted:    "#71717a", // Zinc-500 (Subtext)
         },
       },
       backgroundImage: {
-        'noise': "url('/noise.png')", // You can add a subtle noise texture image for premium feel
-        'hero-gradient': "radial-gradient(circle at top right, #2563EB20 0%, transparent 40%), radial-gradient(circle at bottom left, #FF008010 0%, transparent 40%)",
+        'luxury-gradient': "radial-gradient(circle at top right, rgba(251, 191, 36, 0.05) 0%, transparent 40%)",
       },
       animation: {
-        'float': 'float 6s ease-in-out infinite',
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'slide-up': 'slideUp 0.5s ease-out',
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
+        fadeIn: {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        slideUp: {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
         }
       }
     },
