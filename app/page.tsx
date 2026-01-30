@@ -3,9 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/sections/HeroSection";
-import FeaturedInSection from "@/components/sections/FeaturedInSection";
 import HowItWorksSection from "@/components/sections/HowItWorksSection";
-import OffersSection from "@/components/sections/OffersSection";
 import FleetSection from "@/components/sections/FleetSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import FaqSection from "@/components/sections/FaqSection";
@@ -15,21 +13,21 @@ export default function Home() {
     <main className="min-h-screen selection:bg-lime-400 selection:text-black font-sans bg-[#050505] text-white">
       <Navbar />
       
+      {/* Hero + Search Console */}
       <HeroSection />
       
-      <FeaturedInSection />
-      
+      {/* Core Value Prop (Process) */}
       <HowItWorksSection />
       
-      <OffersSection />
-      
-      {/* Wrapper ID for scrolling from Hero */}
+      {/* The Product (Cars) - ID used for scrolling */}
       <div id="fleet-section">
         <FleetSection />
       </div>
       
+      {/* Social Proof (Reviews) */}
       <TestimonialsSection />
       
+      {/* Trust/Info (FAQ) */}
       <FaqSection />
       
       <Footer />

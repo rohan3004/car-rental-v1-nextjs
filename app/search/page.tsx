@@ -1,177 +1,120 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import SpotlightCard from "@/components/ui/SpotlightCard";
-import { MOCK_CARS } from "@/lib/mockData";
-import { SlidersHorizontal, ChevronDown, X, Fuel, Armchair } from "lucide-react";
+import { useFleetConfig } from "@/lib/useFleetConfig";
 import Image from "next/image";
+import Link from "next/link";
+import { Loader2, MapPin, Calendar, UserCheck } from "lucide-react";
 
 export default function SearchPage() {
-  // Mock Filters
-  const [filters, setFilters] = useState({
-    transmission: [] as string[],
-    fuel: [] as string[],
-    type: [] as string[],
-  });
+  const searchParams = useSearchParams();
+  const { allCars, loading } = useFleetConfig();
+  
+  // 1. Get ALL details from URL
+  const start = searchParams.get("start") || "";
+  const end = searchParams.get("end") || "";
+  const city = searchParams.get("city") || "West Bengal";
+  const district = searchParams.get("district") || "";
 
-  const toggleFilter = (category: keyof typeof filters, value: string) => {
-    setFilters(prev => {
-      const current = prev[category];
-      const updated = current.includes(value) 
-        ? current.filter(item => item !== value)
-        : [...current, value];
-      return { ...prev, [category]: updated };
-    });
-  };
+  // 2. Format for Display
+  const locationLabel = district ? `${city}, ${district}` : city;
+  
+  // 3. Create Query String for Next Step (Booking)
+  const queryParams = new URLSearchParams({
+    start,
+    end,
+    city,
+    district
+  }).toString();
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white font-sans selection:bg-lime-400 selection:text-black">
+    <main className="min-h-screen bg-[#050505] text-white selection:bg-lime-400 selection:text-black">
       <Navbar />
-
-      <div className="pt-32 pb-20 px-4 md:px-6 max-w-[1600px] mx-auto">
+      
+      <div className="pt-32 pb-20 px-6 max-w-7xl mx-auto">
         
-        {/* Header / Search Summary */}
+        {/* HEADER: Shows the user's selection */}
         <div className="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-white/10 pb-8">
            <div>
-              <p className="text-gray-400 text-sm mb-1">Results for</p>
-              <h1 className="font-space text-3xl md:text-4xl font-bold">Bangalore, Indiranagar</h1>
-              <p className="text-lime-400 text-sm font-bold mt-2">Oct 12, 10:00 AM <span className="text-gray-500 mx-2">•</span> Oct 13, 10:00 AM</p>
+              <div className="flex items-center gap-2 text-lime-400 font-bold uppercase tracking-widest text-xs mb-2">
+                 <UserCheck size={14} /> Chauffeur Driven Fleet
+              </div>
+              <h1 className="font-space text-3xl md:text-4xl font-bold capitalize">
+                 {locationLabel}
+              </h1>
+              {start && end && (
+                 <p className="text-gray-400 text-sm font-medium mt-2 flex items-center gap-2">
+                    <Calendar size={14} /> 
+                    {new Date(start).toLocaleDateString()} - {new Date(end).toLocaleDateString()}
+                 </p>
+              )}
            </div>
-           <button className="hidden md:flex items-center gap-2 bg-[#111] border border-white/10 px-4 py-2 rounded-lg text-sm font-bold hover:bg-white/10 transition-colors">
-              <SlidersHorizontal size={16} /> Filters
-           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-           
-           {/* SIDEBAR FILTERS (Desktop) */}
-           <div className="hidden lg:block lg:col-span-3 space-y-8 sticky top-32 h-fit">
-              
-              {/* Transmission */}
-              <div>
-                 <h3 className="font-bold text-white mb-4 text-sm uppercase tracking-wider">Transmission</h3>
-                 <div className="space-y-2">
-                    {['Automatic', 'Manual'].map((type) => (
-                       <label key={type} className="flex items-center gap-3 cursor-pointer group">
-                          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.transmission.includes(type) ? 'bg-lime-400 border-lime-400 text-black' : 'border-white/20 group-hover:border-white'}`}>
-                             {filters.transmission.includes(type) && <X size={14} />}
-                          </div>
-                          <input type="checkbox" className="hidden" onChange={() => toggleFilter('transmission', type)} />
-                          <span className="text-gray-400 group-hover:text-white text-sm">{type}</span>
-                       </label>
-                    ))}
-                 </div>
-              </div>
-
-              {/* Fuel Type */}
-              <div>
-                 <h3 className="font-bold text-white mb-4 text-sm uppercase tracking-wider">Fuel Type</h3>
-                 <div className="space-y-2">
-                    {['Petrol', 'Diesel', 'EV'].map((type) => (
-                       <label key={type} className="flex items-center gap-3 cursor-pointer group">
-                          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.fuel.includes(type) ? 'bg-lime-400 border-lime-400 text-black' : 'border-white/20 group-hover:border-white'}`}>
-                             {filters.fuel.includes(type) && <X size={14} />}
-                          </div>
-                          <input type="checkbox" className="hidden" onChange={() => toggleFilter('fuel', type)} />
-                          <span className="text-gray-400 group-hover:text-white text-sm">{type}</span>
-                       </label>
-                    ))}
-                 </div>
-              </div>
-
-               {/* Car Type */}
-               <div>
-                 <h3 className="font-bold text-white mb-4 text-sm uppercase tracking-wider">Car Type</h3>
-                 <div className="space-y-2">
-                    {['Hatchback', 'Sedan', 'SUV'].map((type) => (
-                       <label key={type} className="flex items-center gap-3 cursor-pointer group">
-                          <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${filters.type.includes(type) ? 'bg-lime-400 border-lime-400 text-black' : 'border-white/20 group-hover:border-white'}`}>
-                             {filters.type.includes(type) && <X size={14} />}
-                          </div>
-                          <input type="checkbox" className="hidden" onChange={() => toggleFilter('type', type)} />
-                          <span className="text-gray-400 group-hover:text-white text-sm">{type}</span>
-                       </label>
-                    ))}
-                 </div>
-              </div>
-
-           </div>
-
-           {/* CAR LIST */}
-           <div className="lg:col-span-9">
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                 {/* Reusing existing data, but in real app we filter based on state */}
-                 {MOCK_CARS.map((car) => (
-                    <SpotlightCard key={car.id} className="group border border-white/10 bg-[#0F0F11]">
-                       <div className="p-5">
-                          {/* Image */}
-                          <div className="relative h-48 w-full mb-5 rounded-xl overflow-hidden border border-white/5">
-                            <Image 
-                              src={car.imageUrl} 
-                              alt={car.modelName} 
-                              fill 
-                              className="object-cover group-hover:scale-105 transition-transform duration-500" 
-                            />
-                            <div className="absolute bottom-2 left-2 flex gap-1">
-                               <span className="bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-bold border border-white/10 text-white flex items-center gap-1">
-                                  <Fuel size={10} className="text-lime-400" /> {car.fuelType}
-                               </span>
-                               <span className="bg-black/60 backdrop-blur px-2 py-1 rounded text-[10px] font-bold border border-white/10 text-white flex items-center gap-1">
-                                  <Armchair size={10} className="text-lime-400" /> {car.seats} Seats
-                               </span>
-                            </div>
-                          </div>
-
-                          {/* Info */}
-                          <div className="flex justify-between items-start mb-4">
-                             <div>
-                                <h3 className="font-space text-lg font-bold text-white leading-tight">{car.modelName}</h3>
-                                <p className="text-xs text-gray-500 mt-1">{car.transmission} • {car.type}</p>
-                             </div>
-                             <div className="text-right">
-                                <p className="text-xl font-bold font-space text-lime-400">₹{car.basePricePerHour}</p>
-                                <p className="text-[10px] text-gray-500 uppercase">Per Hour</p>
-                             </div>
-                          </div>
-
-                          <a href={`/cars/${car.id}`} className="block w-full text-center bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors text-sm">
-                             View Details
-                          </a>
+        {/* LOADING STATE */}
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-20">
+             <Loader2 className="animate-spin text-lime-400 mb-4" size={32} />
+             <p className="text-gray-500">Locating available cars...</p>
+          </div>
+        ) : (
+          /* CAR GRID */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allCars.map((car) => (
+              <SpotlightCard key={car.id} className="border border-white/10 bg-[#0F0F11] group">
+                 <div className="p-6">
+                    {/* Image */}
+                    <div className="relative h-52 w-full mb-6 rounded-xl overflow-hidden border border-white/5 bg-gray-900">
+                       <Image 
+                         src={car.image} 
+                         alt={car.name} 
+                         fill 
+                         className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                       />
+                       <div className="absolute top-3 right-3 bg-black/80 backdrop-blur px-3 py-1.5 rounded-lg text-xs font-bold border border-white/20 text-white flex items-center gap-1">
+                          <UserCheck size={12} className="text-lime-400" /> Driver Included
                        </div>
-                    </SpotlightCard>
-                 ))}
-                 
-                 {/* Duplicate Mock Data to fill the grid */}
-                 {MOCK_CARS.map((car) => (
-                    <SpotlightCard key={`${car.id}-dup`} className="group border border-white/10 bg-[#0F0F11]">
-                       <div className="p-5">
-                          <div className="relative h-48 w-full mb-5 rounded-xl overflow-hidden border border-white/5">
-                            <Image src={car.imageUrl} alt={car.modelName} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                          </div>
-                          <div className="flex justify-between items-start mb-4">
-                             <div>
-                                <h3 className="font-space text-lg font-bold text-white leading-tight">{car.modelName}</h3>
-                                <p className="text-xs text-gray-500 mt-1">{car.transmission} • {car.type}</p>
-                             </div>
-                             <div className="text-right">
-                                <p className="text-xl font-bold font-space text-lime-400">₹{car.basePricePerHour}</p>
-                                <p className="text-[10px] text-gray-500 uppercase">Per Hour</p>
-                             </div>
-                          </div>
-                          <a href={`/cars/${car.id}`} className="block w-full text-center bg-white text-black font-bold py-3 rounded-xl hover:bg-gray-200 transition-colors text-sm">
-                             View Details
-                          </a>
-                       </div>
-                    </SpotlightCard>
-                 ))}
-              </div>
-           </div>
+                    </div>
 
-        </div>
+                    {/* Details */}
+                    <div className="flex justify-between items-start mb-6">
+                       <div>
+                          <h3 className="font-bold text-xl font-space">{car.name}</h3>
+                          <p className="text-sm text-gray-400">{car.brand}</p>
+                       </div>
+                       <div className="text-right">
+                          <p className="font-bold text-lime-400 text-xl">₹{car.price_per_hr}</p>
+                          <p className="text-[10px] text-gray-500 uppercase tracking-wider">Per Hour</p>
+                       </div>
+                    </div>
+
+                    {/* Policies Mini-View */}
+                    <div className="grid grid-cols-2 gap-2 mb-6">
+                       <div className="bg-white/5 rounded-lg p-2 text-center border border-white/5">
+                          <div className="text-[10px] text-gray-500 uppercase font-bold">Extra KM</div>
+                          <div className="text-sm font-bold text-white">₹{car.price_per_km}/km</div>
+                       </div>
+                       <div className="bg-white/5 rounded-lg p-2 text-center border border-white/5">
+                          <div className="text-[10px] text-gray-500 uppercase font-bold">Min Bill</div>
+                          <div className="text-sm font-bold text-white">10 Hrs</div>
+                       </div>
+                    </div>
+
+                    {/* LINK: Passes ALL params to Booking Page */}
+                    <Link 
+                      href={`/book/${car.id}?${queryParams}`}
+                      className="block w-full bg-white text-black font-bold text-center py-4 rounded-xl hover:bg-lime-400 transition-colors uppercase tracking-wide text-sm"
+                    >
+                       Select Car
+                    </Link>
+                 </div>
+              </SpotlightCard>
+            ))}
+          </div>
+        )}
       </div>
-      <Footer />
     </main>
   );
 }

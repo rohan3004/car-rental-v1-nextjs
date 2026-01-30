@@ -1,0 +1,844 @@
+{
+    "service_type": "WITH_DRIVER",
+    "location_data": {
+        "districts": [
+            {
+                "name": "Alipurduar",
+                "headquarters": "Alipurduar",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Alipurduar",
+                    "Falakata"
+                ],
+                "census_towns": [
+                    "Alipurduar Railway Junction",
+                    "Bholar Dabri",
+                    "Chechakhata",
+                    "Jaygaon",
+                    "Paschim Jitpur",
+                    "Sobhaganj",
+                    "Uttar Kamakhyaguri",
+                    "Uttar Latabari"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Bankura",
+                "headquarters": "Bankura",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Bankura",
+                    "Bishnupur",
+                    "Sonamukhi"
+                ],
+                "census_towns": [
+                    "Barjora",
+                    "Beliatore",
+                    "Khatra"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Birbhum",
+                "headquarters": "Suri",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Bolpur",
+                    "Dubrajpur",
+                    "Nalhati",
+                    "Rampurhat",
+                    "Sainthia",
+                    "Suri"
+                ],
+                "census_towns": [
+                    "Ahmadpur"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Cooch Behar",
+                "headquarters": "Cooch Behar",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Dinhata",
+                    "Koch Bihar",
+                    "Haldibari",
+                    "Mathabhanga",
+                    "Mekliganj",
+                    "Tufanganj"
+                ],
+                "census_towns": [
+                    "Bhangri Pratham Khanda",
+                    "Guriahati",
+                    "Khagrabari",
+                    "Kharimala Khagrabari"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Dakshin Dinajpur",
+                "headquarters": "Balurghat",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Balurghat",
+                    "Gangarampur",
+                    "Buniadpur"
+                ],
+                "census_towns": [],
+                "other_urban_units": []
+            },
+            {
+                "name": "Darjeeling",
+                "headquarters": "Darjeeling",
+                "municipal_corporations": [
+                    "Siliguri"
+                ],
+                "municipalities": [
+                    "Darjiling",
+                    "Kurseong",
+                    "Mirik"
+                ],
+                "census_towns": [
+                    "Bairatisal",
+                    "Cart Road",
+                    "Pattabong Tea Garden",
+                    "Uttar Bagdogra"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Hooghly",
+                "headquarters": "Chinsurah",
+                "municipal_corporations": [
+                    "Chandannagar"
+                ],
+                "municipalities": [
+                    "Arambag",
+                    "Bansberia",
+                    "Baidyabati",
+                    "Bhadreswar",
+                    "Champdani",
+                    "Hugli-Chuchura",
+                    "Konnagar",
+                    "Rishra",
+                    "Serampore",
+                    "Tarakeswar",
+                    "Uttarpara Kotrung"
+                ],
+                "census_towns": [
+                    "Amodghata",
+                    "Badhagachhi",
+                    "Bamunari",
+                    "Barijhati",
+                    "Begampur",
+                    "Chak Bansberia",
+                    "Chikrand",
+                    "Dakshin Rajyadharpur",
+                    "Dharmapur",
+                    "Kanaipur",
+                    "Kharsarai",
+                    "Kodalia",
+                    "Kulihanda",
+                    "Madhusudanpur",
+                    "Mrigala",
+                    "Monoharpur",
+                    "Nabagram Colony",
+                    "Pairagachha",
+                    "Pandua",
+                    "Purba Tajpur",
+                    "Raghunathpur",
+                    "Rishra",
+                    "Shankhanagar",
+                    "Simla",
+                    "Singur",
+                    "Garalgachha",
+                    "Krishnapur",
+                    "Raghunathpur"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Howrah",
+                "headquarters": "Howrah",
+                "municipal_corporations": [
+                    "Howrah"
+                ],
+                "municipalities": [
+                    "Bally",
+                    "Uluberia"
+                ],
+                "census_towns": [
+                    "Andul",
+                    "Ankurhati",
+                    "Argari",
+                    "Bagnan",
+                    "Balaram Pota",
+                    "Bally (Jagachha)",
+                    "Bankra",
+                    "Banupur",
+                    "Beldubi",
+                    "Bhandardaha",
+                    "Bikihakola",
+                    "Bipra Noapara",
+                    "Chakapara",
+                    "Chamrail",
+                    "Dakshin Jhapardaha",
+                    "Dhuilya",
+                    "Domjur",
+                    "Eksara",
+                    "Gabberia",
+                    "Hatgachha",
+                    "Jagadishpur",
+                    "Jala Kendua",
+                    "Jhorhat",
+                    "Kalara",
+                    "Kantlia",
+                    "Kesabpur",
+                    "Khalia",
+                    "Khalor",
+                    "Khantora",
+                    "Mahiari",
+                    "Makardaha",
+                    "Manikpur",
+                    "Mansinhapur",
+                    "Nalpur",
+                    "Natibpur",
+                    "Naupala",
+                    "Nibra",
+                    "Panchla",
+                    "Panchpara",
+                    "Paniara",
+                    "Podara",
+                    "Raghudebbati",
+                    "Ramchandrapur",
+                    "Sahapur",
+                    "Salap",
+                    "Sankrail",
+                    "Santoshpur",
+                    "Sarenga",
+                    "Tentulkuli",
+                    "Uttar Pirpur"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Jalpaiguri",
+                "headquarters": "Jalpaiguri",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Dhupguri",
+                    "Jalpaiguri",
+                    "Mainaguri",
+                    "Mal"
+                ],
+                "census_towns": [
+                    "Banarhat Tea Garden",
+                    "Gairkata"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Jhargram",
+                "headquarters": "Jhargram",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Jhargram"
+                ],
+                "census_towns": [],
+                "other_urban_units": []
+            },
+            {
+                "name": "Kalimpong",
+                "headquarters": "Kalimpong",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Kalimpong"
+                ],
+                "census_towns": [],
+                "other_urban_units": []
+            },
+            {
+                "name": "Kolkata",
+                "headquarters": "Kolkata",
+                "municipal_corporations": [
+                    "Kolkata"
+                ],
+                "municipalities": [],
+                "census_towns": [],
+                "other_urban_units": []
+            },
+            {
+                "name": "Malda",
+                "headquarters": "Malda City",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "English Bazar",
+                    "Old Malda"
+                ],
+                "census_towns": [
+                    "Aiho",
+                    "Kachu Pukur",
+                    "Kendua",
+                    "Gazole",
+                    "Chanchal",
+                    "Kaliachak",
+                    "Sujapur",
+                    "Manikchak",
+                    "Ratua",
+                    "Harish Chandrapur",
+                    "Bamongola",
+                    "Habibpur"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Murshidabad",
+                "headquarters": "Baharampur",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Baharampur",
+                    "Beldanga",
+                    "Dhulian",
+                    "Jangipur",
+                    "Jiaganj Azimganj",
+                    "Kandi",
+                    "Murshidabad"
+                ],
+                "census_towns": [
+                    "Anup Nagar",
+                    "Aurangabad",
+                    "Chachanda",
+                    "Charka",
+                    "Dafahat",
+                    "Dhusaripara",
+                    "Sagardighi",
+                    "Farrakka Barrage Township",
+                    "Fatellapur",
+                    "Ghorsala",
+                    "Goaljan",
+                    "Gora Bazar",
+                    "Harharia Chak",
+                    "Jagtaj",
+                    "Jot Kamal",
+                    "Kankuria",
+                    "Kasimbazar",
+                    "Khodarampur",
+                    "Paschim Punropara",
+                    "Sahajadpur",
+                    "Serpur",
+                    "Srikantabati",
+                    "Uttar Mahammadpur"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Nadia",
+                "headquarters": "Krishnanagar",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Birnagar",
+                    "Chakdaha",
+                    "Gayespur",
+                    "Haringhata",
+                    "Kalyani",
+                    "Krishnanagar",
+                    "Taherpur",
+                    "Nabadwip",
+                    "Ranaghat",
+                    "Santipur",
+                    "Cooper's Camp"
+                ],
+                "census_towns": [
+                    "Aistala",
+                    "Bablari Dewanganj",
+                    "Baruihuda",
+                    "Char Brahmanagar",
+                    "Char Maijdia",
+                    "Darappur",
+                    "Jagadanandapur",
+                    "Karimpur",
+                    "Kshidirpur",
+                    "Madanpur",
+                    "Badkulla",
+                    "Nasra",
+                    "Parbbatipur",
+                    "Phulia",
+                    "Satigachha"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "North 24 Parganas",
+                "headquarters": "Barasat",
+                "municipal_corporations": [
+                    "Bidhannagar"
+                ],
+                "municipalities": [
+                    "Ashoknagar Kalyangarh",
+                    "Baduria",
+                    "Bangaon",
+                    "Baranagar",
+                    "Barasat",
+                    "Barrackpore",
+                    "Basirhat",
+                    "Bhatpara",
+                    "Dum Dum",
+                    "Gobardanga",
+                    "Habra",
+                    "Halisahar",
+                    "Garulia",
+                    "Kamarhati",
+                    "Kanchrapara",
+                    "Khardaha",
+                    "Madhyamgram",
+                    "Naihati",
+                    "New Barrackpur",
+                    "North Barrackpur",
+                    "North Dumdum",
+                    "Panihati",
+                    "South Dumdum",
+                    "Taki",
+                    "Titagarh"
+                ],
+                "census_towns": [
+                    "Bamangachhi",
+                    "Bara Bamonia",
+                    "Chandpur",
+                    "Dhakuria",
+                    "Dhanyakuria",
+                    "Garshyamnagar",
+                    "Guma",
+                    "Ichhapur Defence Estate",
+                    "Jafarpur",
+                    "Jetia",
+                    "Kaugachhi",
+                    "Maslandapur",
+                    "Muragachha",
+                    "Nebadhai Duttapukur",
+                    "Nokpul",
+                    "Patulia",
+                    "Raigachhi",
+                    "Ruiya",
+                    "Sadpur",
+                    "Sonatikiri",
+                    "Talbandha",
+                    "Thakurnagar"
+                ],
+                "other_urban_units": [
+                    "Barrackpur Cantonment",
+                    "New Town"
+                ]
+            },
+            {
+                "name": "Paschim Bardhaman",
+                "headquarters": "Asansol",
+                "municipal_corporations": [
+                    "Asansol",
+                    "Durgapur"
+                ],
+                "municipalities": [
+                    "Jamuria",
+                    "Kulti",
+                    "Raniganj"
+                ],
+                "census_towns": [
+                    "Amkula",
+                    "Andal",
+                    "Bahula",
+                    "Ballavpur",
+                    "Banshra",
+                    "Baska",
+                    "Belebathan",
+                    "Bhanowara",
+                    "Bilpahari",
+                    "Chak Bankola",
+                    "Chapui",
+                    "Chelad",
+                    "Chhora",
+                    "Chittaranjan",
+                    "Dalurband",
+                    "Debipur",
+                    "Dhandadihi",
+                    "Dignala",
+                    "Haripur",
+                    "Harishpur",
+                    "Hindusthan Cables Town",
+                    "Jemari",
+                    "Jemari (J.K. Nagar Township)",
+                    "Kajora",
+                    "Kanksa",
+                    "Kenda",
+                    "Kendra Khottamdi",
+                    "Khandra",
+                    "Konardihi",
+                    "Kunustara",
+                    "Mahira",
+                    "Mandarbani",
+                    "Murgathaul",
+                    "Nabgram",
+                    "Palashban",
+                    "Pangachhiya (B)",
+                    "Parashkol",
+                    "Parasia",
+                    "Prayagpur",
+                    "Raghunathchak",
+                    "Ramnagar",
+                    "Ratibati",
+                    "Sankarpur",
+                    "Sarpi",
+                    "Siduli",
+                    "Sirsha",
+                    "Ukhra"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Paschim Medinipur",
+                "headquarters": "Medinipur",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Chandrakona",
+                    "Ghatal",
+                    "Kharagpur",
+                    "Kharar",
+                    "Kshirpai",
+                    "Medinipur",
+                    "Ramjibanpur"
+                ],
+                "census_towns": [
+                    "Balichak",
+                    "Deuli",
+                    "Durllabhganj",
+                    "Kharagpur Railway Settlement"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Purba Bardhaman",
+                "headquarters": "Bardhaman",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Bardhaman",
+                    "Dainhat",
+                    "Guskara",
+                    "Kalna",
+                    "Katwa",
+                    "Memari"
+                ],
+                "census_towns": [
+                    "Dhatrigram",
+                    "Gopinathpur",
+                    "Hatsimla",
+                    "Panuhat",
+                    "Patuli",
+                    "Srirampur",
+                    "Sukdal",
+                    "Uttar Goara"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Purba Medinipur",
+                "headquarters": "Tamluk",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Contai",
+                    "Egra",
+                    "Haldia",
+                    "Panskura",
+                    "Tamluk"
+                ],
+                "census_towns": [
+                    "Bahirgram",
+                    "Dakshin Baguan",
+                    "Goasafat",
+                    "Kakdihi",
+                    "Kolaghat"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Purulia",
+                "headquarters": "Purulia",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Jhalda",
+                    "Puruliya",
+                    "Raghunathpur"
+                ],
+                "census_towns": [
+                    "Manbazar",
+                    "Adra",
+                    "Arra",
+                    "Balarampur",
+                    "Barabazar",
+                    "Chapari",
+                    "Hijuli",
+                    "Nabagram",
+                    "Par Beliya",
+                    "Santaldih"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "South 24 Parganas",
+                "headquarters": "Alipore",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Baruipur",
+                    "Budge Budge",
+                    "Diamond Harbour",
+                    "Jaynagar Majilpur",
+                    "Maheshtala",
+                    "Pujali",
+                    "Rajpur Sonarpur"
+                ],
+                "census_towns": [
+                    "Abhirampur",
+                    "Alipore",
+                    "Amtala",
+                    "Asuti",
+                    "Baharu",
+                    "Balarampur",
+                    "Barkalikapur",
+                    "Basanti",
+                    "Benjanhari Acharial",
+                    "Bhangar Raghunathpur",
+                    "Bhasa",
+                    "Bidyadharpur",
+                    "Bilandapur",
+                    "Birlapur",
+                    "Bishnupur",
+                    "Bora Gagangohalia",
+                    "Bowali",
+                    "Buita",
+                    "Chak Alampur",
+                    "Chak Baria",
+                    "Chak Enayetnagar",
+                    "Chak Kashipur",
+                    "Champahati",
+                    "Chanddandaha",
+                    "Chata Kalikapur",
+                    "Dakshin Raypur",
+                    "Danga",
+                    "Daulatpur",
+                    "Ganye Gangadharpur",
+                    "Garia",
+                    "Gaur Daha",
+                    "Gobindapur",
+                    "Hanspukuria",
+                    "Hariharpur",
+                    "Kalikapur",
+                    "Kalikapur Barasat",
+                    "Kalua",
+                    "Kanganbaria",
+                    "Kanyanagar",
+                    "Khodar Bazar",
+                    "Komarhat",
+                    "Kriparampur",
+                    "Magrahat",
+                    "Mallikpur",
+                    "Maricha",
+                    "Mathurapur",
+                    "Nadabhanga",
+                    "Nahazari",
+                    "Naridana",
+                    "Nimpith",
+                    "Nischintapur",
+                    "Panchghara",
+                    "Patharberia",
+                    "Petua",
+                    "Poali",
+                    "Radhanagar",
+                    "Ramchandrapur",
+                    "Rameswarpur",
+                    "Ramkrishnapur",
+                    "Raynagar",
+                    "Sahebpur",
+                    "Salipur",
+                    "Samali",
+                    "Solgohalia",
+                    "Tulshighata",
+                    "Uttar Durgapur",
+                    "Uttar Kalas",
+                    "Uttar Raypur",
+                    "Uttarparanij"
+                ],
+                "other_urban_units": []
+            },
+            {
+                "name": "Uttar Dinajpur",
+                "headquarters": "Raiganj",
+                "municipal_corporations": [],
+                "municipalities": [
+                    "Dalkhola",
+                    "Islampur",
+                    "Kaliaganj",
+                    "Raiganj"
+                ],
+                "census_towns": [
+                    "Kasba",
+                    "Nachhratpur Katabari"
+                ],
+                "other_urban_units": []
+            }
+        ]
+    },
+    "fleet_config": {
+        "pricing_rules": {
+            "min_hours": 10,
+            "min_km": 100,
+            "policies": [
+                "Fuel is not included (Level-to-Level)",
+                "Toll tax, Parking & Interstate Permits are extra",
+                "Minimum Booking: 10 Hours or 100 KMs",
+                "Speed Limit: 80 km/hr (Govt. Mandated)"
+            ]
+        },
+        "categories": [
+            {
+                "id": "hatchback",
+                "name": "Hatchbacks",
+                "price_per_hr": 250,
+                "price_per_km": 25,
+                "cars": [
+                    {
+                        "id": "wagonr",
+                        "name": "Wagon-R",
+                        "brand": "Maruti Suzuki",
+                        "image": "/cars/wagonr.webp"
+                    },
+                    {
+                        "id": "swift",
+                        "name": "Swift",
+                        "brand": "Maruti Suzuki",
+                        "image": "/cars/swift.jpg"
+                    },
+                    {
+                        "id": "punch",
+                        "name": "Punch",
+                        "brand": "Tata Motors",
+                        "image": "/cars/punch.webp"
+                    },
+                    {
+                        "id": "altroz",
+                        "name": "Altroz",
+                        "brand": "Tata Motors",
+                        "image": "/cars/altroz.webp"
+                    }
+                ]
+            },
+            {
+                "id": "sedan",
+                "name": "Sedans",
+                "price_per_hr": 350,
+                "price_per_km": 35,
+                "cars": [
+                    {
+                        "id": "dzire",
+                        "name": "Dzire",
+                        "brand": "Maruti Suzuki",
+                        "image": "/cars/dzire.webp"
+                    },
+                    {
+                        "id": "tigor",
+                        "name": "Tigor",
+                        "brand": "Tata Motors",
+                        "image": "/cars/tigor.webp"
+                    },
+                    {
+                        "id": "xpres",
+                        "name": "Xpres-T",
+                        "brand": "Tata Motors",
+                        "image": "/cars/xpres.webp"
+                    }
+                ]
+            },
+            {
+                "id": "muv_suv",
+                "name": "MUV / SUVs",
+                "price_per_hr": 450,
+                "price_per_km": 45,
+                "cars": [
+                    {
+                        "id": "ertiga",
+                        "name": "Ertiga",
+                        "brand": "Maruti Suzuki",
+                        "image": "/cars/ertiga.webp"
+                    },
+                    {
+                        "id": "rumion",
+                        "name": "Rumion",
+                        "brand": "Toyota",
+                        "image": "/cars/rumion.webp"
+                    },
+                    {
+                        "id": "sierra",
+                        "name": "Sierra",
+                        "brand": "Tata Motors",
+                        "image": "/cars/sierra.webp"
+                    }
+                ]
+            },
+            {
+                "id": "exec_suv",
+                "name": "Executive SUVs",
+                "price_per_hr": 550,
+                "price_per_km": 55,
+                "cars": [
+                    {
+                        "id": "innova",
+                        "name": "Innova Crysta",
+                        "brand": "Toyota",
+                        "image": "/cars/innova.webp"
+                    },
+                    {
+                        "id": "safari",
+                        "name": "Safari",
+                        "brand": "Tata Motors",
+                        "image": "/cars/safari.webp"
+                    }
+                ]
+            }
+        ]
+    },
+    "testimonials": [
+        {
+            "name": "Amit Roy",
+            "role": "Photographer",
+            "text": "Took the Ertiga for a shoot in Victoria Memorial. Smooth booking, clean car, and zero hidden charges."
+        },
+        {
+            "name": "Sneha Das",
+            "role": "IT Professional",
+            "text": "Best service in Salt Lake! The Wagon-R was perfect for my office commute when my car was in service."
+        },
+        {
+            "name": "Rajesh Malhotra",
+            "role": "Business Owner",
+            "text": "Booked the Innova for a family trip to Digha. The car was in mint condition. Highly recommended!"
+        }
+    ],
+    "faqs": [
+        {
+            "question": "Is fuel included in the rental price?",
+            "answer": "No. The car is provided with a full tank (or specific level), and you must return it with the same level. You pay for the fuel you consume."
+        },
+        {
+            "question": "Does the price include Driver Allowance?",
+            "answer": "The base fare includes the car rent. Driver daily allowance (Batta) is charged separately (approx ₹300/day) and payable directly to the driver."
+        },
+        {
+            "question": "Are Toll and Parking charges included?",
+            "answer": "No. All toll taxes, state entry permits, and parking fees are to be paid by the guest as per actuals during the trip."
+        },
+        {
+            "question": "Can I drive the car myself?",
+            "answer": "No. All our cars are strictly Chauffeur-driven. We do not provide Self-Drive cars."
+        },
+        {
+            "question": "What happens if I exceed the hours booked?",
+            "answer": "Extra hours will be charged at the standard hourly rate for that specific car model."
+        }
+    ]
+}
