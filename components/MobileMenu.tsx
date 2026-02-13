@@ -114,7 +114,7 @@ export default function MobileMenu({ isOpen, onClose, onLoginClick, isLoggedIn }
               )}
               
               <div className="mt-8 flex justify-between items-center text-[10px] text-gray-600 uppercase tracking-widest">
-                 <span>© 2024 GoCar</span>
+                 <span>© {new Date().getFullYear()} GoCar</span>
                  <span>West Bengal</span>
               </div>
             </div>

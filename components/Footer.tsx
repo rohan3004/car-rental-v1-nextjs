@@ -1,6 +1,5 @@
-import { CarFront, Instagram, Twitter, Linkedin, Facebook } from "lucide-react";
+import { Instagram, Twitter, Linkedin, Facebook } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -31,11 +30,11 @@ export default function Footer() {
 
           {/* Links Column 1 */}
           <div>
-            <h4 className="font-serif text-white text-lg mb-6">Company</h4>
+            <h4 className="font-serif text-white text-lg mb-6">Quick Links</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              {['About Us', 'Careers', 'Press', 'Blog'].map((item) => (
-                 <li key={item}><Link href="#" className="hover:text-amber-400 transition-colors tracking-wide">{item}</Link></li>
-              ))}
+              <li><Link href="/#fleet-section" className="hover:text-amber-400 transition-colors tracking-wide">Our Fleet</Link></li>
+              <li><Link href="/#how-it-works" className="hover:text-amber-400 transition-colors tracking-wide">How It Works</Link></li>
+              <li><Link href="/#faq" className="hover:text-amber-400 transition-colors tracking-wide">FAQs</Link></li>
             </ul>
           </div>
 
@@ -43,9 +42,9 @@ export default function Footer() {
           <div>
             <h4 className="font-serif text-white text-lg mb-6">Legal</h4>
             <ul className="space-y-3 text-sm text-zinc-500">
-              {['Terms of Service', 'Privacy Policy', 'Cookie Policy', 'Refund Policy'].map((item) => (
-                 <li key={item}><Link href="#" className="hover:text-amber-400 transition-colors tracking-wide">{item}</Link></li>
-              ))}
+              <li><Link href="/terms" className="hover:text-amber-400 transition-colors tracking-wide">Terms of Service</Link></li>
+              <li><Link href="/terms" className="hover:text-amber-400 transition-colors tracking-wide">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-amber-400 transition-colors tracking-wide">Refund Policy</Link></li>
             </ul>
           </div>
 
@@ -69,7 +68,7 @@ export default function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-zinc-600 text-[10px] uppercase tracking-widest font-bold">
-          <div>© 2024 GoCar Rentals. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} GoCar Rentals. All rights reserved.</div>
           <div className="flex gap-8">
              <span>West Bengal</span>
              <span>India</span>

@@ -32,15 +32,24 @@ export default function Navbar() {
 
           {/* Desktop Links - Luxury Minimal Style */}
           <div className="hidden md:flex items-center gap-10">
-            {['Fleet', 'Experience', 'Contact'].map((item, i) => (
-              <Link 
-                key={i}
-                href={item === 'Experience' ? '/#how-it-works' : `/${item.toLowerCase()}`} 
-                className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-amber-400 transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
+            <Link 
+              href="/#fleet-section" 
+              className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-amber-400 transition-colors"
+            >
+              Fleet
+            </Link>
+            <Link 
+              href="/#how-it-works" 
+              className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-amber-400 transition-colors"
+            >
+              Experience
+            </Link>
+            <Link 
+              href="/#faq" 
+              className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-amber-400 transition-colors"
+            >
+              FAQ
+            </Link>
           </div>
 
           <div className="flex items-center gap-6">

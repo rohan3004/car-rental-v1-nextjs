@@ -35,6 +35,40 @@ export interface FAQ {
   answer: string;
 }
 
+export interface NightCharges {
+  enabled: boolean;
+  start_hour: number;
+  end_hour: number;
+  flat_rate: number;
+  description: string;
+}
+
+export interface ExtraCharge {
+  id: string;
+  name: string;
+  type: 'per_day' | 'actual' | 'flat';
+  amount: number;
+  description: string;
+  included: boolean;
+}
+
+export interface TariffItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export interface PricingRules {
+  min_hours: number;
+  min_km: number;
+  speed_limit_kmph: number;
+  fuel_included: boolean;
+  night_charges: NightCharges;
+  extra_charges: ExtraCharge[];
+  inclusions: TariffItem[];
+  exclusions: TariffItem[];
+}
+
 // --- 2. THE MASTER DATA (West Bengal) ---
 const WB_DISTRICT_DATA: District[] = [
     // ... (Keep the exact same WB_DISTRICT_DATA array from previous steps here)
@@ -105,6 +139,7 @@ export function useFleetConfig() {
   const districts: District[] = data?.location_data?.districts || WB_DISTRICT_DATA;
   const testimonials: Testimonial[] = data?.testimonials || [];
   const faqs: FAQ[] = data?.faqs || [];
+  const pricingRules: PricingRules | null = data?.fleet_config?.pricing_rules || null;
   
   const allCars: Car[] = (data?.fleet_config?.categories?.flatMap((cat: any) => 
     (cat.cars || []).map((car: any) => ({
@@ -119,7 +154,8 @@ export function useFleetConfig() {
     config: data?.fleet_config, 
     districts,
     testimonials,
-    faqs, // <--- EXPORTED HERE
+    faqs,
+    pricingRules,
     allCars, 
     loading 
   };
